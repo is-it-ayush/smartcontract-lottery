@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.6.0;
 
-import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
-import '@chainlink/contracts/src/v0.8/VRFConsumerBase.sol';
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol';
+import '@chainlink/contracts/src/v0.6/VRFConsumerBase.sol';
+import '@chainlink/contracts/src/v0.6/Owned.sol';
 
-abstract contract Lottery is VRFConsumerBase, Ownable{
+abstract contract Lottery is VRFConsumerBase, Owned{
 
     address payable[] public players;
     uint256 public usdEntryFee;
@@ -26,7 +26,7 @@ abstract contract Lottery is VRFConsumerBase, Ownable{
 
     // KeyHash is a way to uniquely identify VRFNode.
     //
-    constructor(address _priceFeed, address _vrfCoordinator, address _link, uint256 f, bytes32 keyhash) VRFConsumerBase(_vrfCoordinator, _link) {
+    constructor(address _priceFeed, address _vrfCoordinator, address _link, uint256 f, bytes32 keyhash) VRFConsumerBase(_vrfCoordinator, _link) internal {
         // Setting lottery state to closed.
         lottery_state = LOTTERY_STATE.CLOSED;
         
