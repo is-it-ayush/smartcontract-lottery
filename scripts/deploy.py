@@ -1,5 +1,5 @@
-from brownie import network,config, Lottery
-from .helpful_scripts import get_account,getContract
+from brownie import accounts, network,config, Lottery
+from .helpful_scripts import get_account,getContract,fund_with_link
 
 def deploy_lottery():
     account = get_account(index=0)
@@ -15,7 +15,32 @@ def deploy_lottery():
 
     print(f'[Contract] Lottery Contract has been deployed at {lottery.address}')
 
+def start_lottery():
+    account = get_account()
+    lottery = Lottery[-1]
+    starting_tx = lottery.startLottery({"from":account})
+    starting_tx.wait(1)
+    print("[Lottery] Lottery Has Been Started!")
+
+def enter_lottery():
+    account = get_account()
+    lottery = Lottery[-1]
+    value = lottery.getEntranceFee() + 100000
+    tx = lottery.enter({"from":account, "value":value})
+    tx.wait(1)
+    print(f"[Lottery] You enterted the lotter with value {value}")
+
+def end_lottery():
+    account = get_account()
+    lottery = Lottery[-1]
+    # Fund the contract
+    tx = fund_with_link(lottery.address)
+    tx.wait()
+    end_lottery()
+
 def main():
     deploy_lottery()
+    start_lottery()
+    enter_lottery()
 
 # Returns priceFeed depending upon the network.
