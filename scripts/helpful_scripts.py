@@ -56,7 +56,7 @@ def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
 
 
 # fund_with_link(): This funds the latest deployed link_token contract with $LINK for Randomness to function.
-def fund_with_link(contract_address,acount=None, link_token=None, amount=100000000000000000): # 0.1 Link, which is the base fees or 10^17 Wei.
+def fund_with_link(contract_address, account=None, link_token=None, amount=100000000000000000): # 0.1 Link, which is the base fees or 10^17 Wei.
     account = account if account else get_account()
     link_token = link_token if link_token else getContract("link_token")
     tx = link_token.transfer(contract_address, amount, {"from":account})
