@@ -24,6 +24,7 @@ def deploy_lottery():
     )
     # A little Update on Console.
     print(f'[Contract] Lottery Contract has been deployed at {lottery.address}')
+    return lottery
 
 def start_lottery():
     """Starts the Lottery."""
