@@ -53,7 +53,8 @@ def enter_lottery():
     print(f"[Lottery] You enterted the lotter with value {value}")
 
 def end_lottery():
-    """End's the lottery. Selects a Random Winner and initiates a transaction."""
+    """End's the lottery. Selects a Random Winner and initiates a transaction.
+    \n time.sleep(180):\t This takes 3 minutes to be work due to on a real network it takes a huge amount of time for VRFCoordinatorNode to respond hence to prevent it from failing. Might implement a better way to do it later. """
     # Getting the account.
     account = get_account()
     # Getting the latest deployed Lottery.
@@ -64,8 +65,6 @@ def end_lottery():
     # Calling endLottery() in our Lottery.sol Contract
     ending_transaction = lottery.endLottery({"from": account})
     ending_transaction.wait(1)
-    # 180 = Basically 3 Minutes. Tested on 60 & 120 and the response is still "0x0000..". As of 17/03/22 it only works on 180(3 Minutes).
-    # Reason (Personal): Could be due to a large amount of testing and responses. Could Increase the time limit for transaction to be processed.
     time.sleep(180)
     # Declaring the winner.
     # Note: This wont return anything in Development Chain because "VRFCoordinator" will never call fullfillRandomness in Lottery.sol because there is no Chainlink Node on our Development Network to call VRFCoordinator which inturn would call fullfillRandomness.
