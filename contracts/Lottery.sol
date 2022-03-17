@@ -23,6 +23,8 @@ contract Lottery is VRFConsumerBase, Owned{
     LOTTERY_STATE public lottery_state;
     uint256 public fee;
     bytes32 public keyHash;
+    // Events are basically print lines of contracts. More Gas Efficient than variable storage.
+    event RequestedRandomness(bytes32 requestID);
  
     // KeyHash is a way to uniquely identify VRFNode.
     //
@@ -60,6 +62,7 @@ contract Lottery is VRFConsumerBase, Owned{
     function endLottery() public onlyOwner {
         lottery_state = LOTTERY_STATE.CALCULATING_WINNER;
         bytes32 _requestId = requestRandomness(keyHash,fee);
+        emit RequestedRandomness(_requestId);
     }
  
   function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {

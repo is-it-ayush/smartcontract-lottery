@@ -8,7 +8,7 @@ def deploy_lottery():
     # This is ("""jhon doe""") used to sepcify the help() text for the function. Calling help(deploy_lottery) will fetch you the below text. 
     """Deploy's the Lottery Contract."""
     # Getting the account. Arguement Explaination explained in helpful_scripts.py file.
-    account = get_account(index=0)
+    account = get_account()
     # Deploying the Lottery Contract & assigning it to lottery variable.
     lottery = Lottery.deploy(
         # The arguemnt data is transferred to Lottery.sol contructor. We can specify & pass required data from python to solidity via this.
@@ -64,7 +64,9 @@ def end_lottery():
     # Calling endLottery() in our Lottery.sol Contract
     ending_transaction = lottery.endLottery({"from": account})
     ending_transaction.wait(1)
-    time.sleep(60)
+    # 180 = Basically 3 Minutes. Tested on 60 & 120 and the response is still "0x0000..". As of 17/03/22 it only works on 180(3 Minutes).
+    # Reason (Personal): Could be due to a large amount of testing and responses. Could Increase the time limit for transaction to be processed.
+    time.sleep(180)
     # Declaring the winner.
     # Note: This wont return anything in Development Chain because "VRFCoordinator" will never call fullfillRandomness in Lottery.sol because there is no Chainlink Node on our Development Network to call VRFCoordinator which inturn would call fullfillRandomness.
     print(f"[Result] The Winner is: {lottery.recentWinner()}")

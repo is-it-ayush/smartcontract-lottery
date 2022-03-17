@@ -9,10 +9,10 @@ INITIAL_VALUE = 200000000000
 
 # get_account(index=2): if index is provied, it will return an address from accounts[2]
 # get_account(id="test_account"): if id is provided, it will load id from (real-life-accounts)
-def get_account(index=None, id=None):
-    if index:
+def get_account(index=None, id="test_account"):
+    if index or network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts[index]
-    if id:
+    if id or network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts.load(id)
     return accounts[0]
 
